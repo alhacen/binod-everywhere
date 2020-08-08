@@ -1,0 +1,27 @@
+(function replaceTextOnPage(){
+	let to="BINOD";
+	  getAllTextNodes().forEach(function(node){
+	if(node.nodeValue.trim()!=""){
+		node.nodeValue = node.nodeValue.replace(new RegExp(quote(node.nodeValue), "g"), node.nodeValue+to);
+	}
+	  });
+	
+	  function getAllTextNodes(){
+		var result = [];
+	
+		(function scanSubTree(node){
+		  if(node.childNodes.length){
+			for(var i = 0; i < node.childNodes.length; i++){
+			  scanSubTree(node.childNodes[i]);
+			}
+		}else if(node.nodeType == Node.TEXT_NODE) 
+			result.push(node);
+		})(document);
+	
+		return result;
+	  }
+	
+	  function quote(str){
+		return (str+"").replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+	  }
+	})()
